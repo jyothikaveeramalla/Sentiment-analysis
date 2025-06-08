@@ -1,5 +1,5 @@
-streamlit
-transformers
-torch
-nltk
-plotly
+streamlit==1.32.2
+transformers==4.40.1
+torch==2.2.2+cpu --index-url https://download.pytorch.org/whl/cpu
+nltk==3.8.1
+plotly==5.18.0
