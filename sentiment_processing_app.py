@@ -6,9 +6,15 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import plotly.express as px
 import plotly.graph_objects as go
+import os
 
-nltk.download('punkt')
-nltk.download('stopwords')
+# Setup NLTK
+nltk_dir = os.path.expanduser("~/nltk_data")
+if not os.path.exists(nltk_dir):
+    os.makedirs(nltk_dir)
+nltk.download('punkt', download_dir=nltk_dir)
+nltk.download('stopwords', download_dir=nltk_dir)
+nltk.data.path.append(nltk_dir)
 
 @st.cache_resource
 def load_model():
@@ -18,6 +24,7 @@ def load_model():
     return tokenizer, model
 
 tokenizer, model = load_model()
+
 
 labels = ['Negative', 'Neutral', 'Positive']
 
