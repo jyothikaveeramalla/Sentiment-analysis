@@ -9,11 +9,9 @@ import plotly.graph_objects as go
 import os
 import ssl
 
-# =============================================
-# NLTK DATA DOWNLOAD FIX
-# =============================================
+# ================== NLTK SETUP ==================
 try:
-    # Create a custom SSL context to prevent download issues
+    # Create custom SSL context
     try:
         _create_unverified_https_context = ssl._create_unverified_context
     except AttributeError:
@@ -26,15 +24,14 @@ try:
     os.makedirs(nltk_dir, exist_ok=True)
     nltk.data.path.append(nltk_dir)
 
-    # Download required data with explicit verification
-    if not nltk.data.find("tokenizers/punkt"):
-        nltk.download('punkt', download_dir=nltk_dir, quiet=True)
-    if not nltk.data.find("corpora/stopwords"):
-        nltk.download('stopwords', download_dir=nltk_dir, quiet=True)
+    # Download required data
+    nltk.download('punkt', download_dir=nltk_dir, quiet=True)
+    nltk.download('stopwords', download_dir=nltk_dir, quiet=True)
+    nltk.download('punkt_tab', download_dir=nltk_dir, quiet=True)  # Add this line
 except Exception as e:
     st.error(f"Error setting up NLTK: {str(e)}")
     st.stop()
-# =============================================
+# ================================================
 
 @st.cache_resource
 def load_model():
@@ -42,7 +39,6 @@ def load_model():
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSequenceClassification.from_pretrained(model_name)
     return tokenizer, model
-
 # Load model with error handling
 try:
     tokenizer, model = load_model()
